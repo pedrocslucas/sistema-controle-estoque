@@ -1,4 +1,5 @@
 import PySimpleGUI as sg
+from janelaPrincipal import janelaPrincipal
 
 font = ("Halvetica", 10)
 sg.set_options(font=font)
@@ -20,7 +21,7 @@ while True:
         password = values['password']
         if str(login) == str(access_system[0]) and str(password) == str(access_system[1]):
             sg.popup_ok("Login feito com SUCESSO!")
-            exec(open("./janelaPrincipal.py").read())
+            janelaPrincipal()
         else:
             sg.popup_error("Usuario ou senha incorretos!")
     if event == sg.WIN_CLOSED:
