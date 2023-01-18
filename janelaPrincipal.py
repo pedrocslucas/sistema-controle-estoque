@@ -1,7 +1,7 @@
 import PySimpleGUI as sg
 from janelaProdutos import janelaProdutos
 from janelaValoresTotais import janelaVerTotal
-from janelaVenda import janelaVenda
+from janelaCarrinho import janelaCarrinho
 
 def janelaPrincipal():
     font = ("Halvetica", 10)

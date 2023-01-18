@@ -40,6 +40,8 @@ def janelaProdutos():
             janela['qtd_estoque'].update('')
             dados.clear()
 
+            janela['nome'].set_focus()
+
         if event == sg.WIN_CLOSED or event == "Voltar":
             break
 

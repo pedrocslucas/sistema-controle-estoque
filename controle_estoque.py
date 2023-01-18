@@ -51,41 +51,24 @@ def writer_new_file(path="produtos.csv", dados=[]):
         print("[ERRO] Não foi possível escrever no arquivo!")
 
 
-def sum_diary(path="produtos.csv"):
-    """
-
-    :return:
-    """
-    dados = read_file(path)
-    return dados
-
-
-def sum_all(path="produtos.csv"):
-    """
-
-    :return:
-    """
-    dados = read_file(path)
-    return dados
-
-
-def remove_registro(index_element=0):
+def remove_registro(path="produtos.csv", index_element=0):
     """
     Função para remover um elemento na lista com base no indice dele.
+    :param path: caminho do arquivo
     :param index_element: indice do elemento a ser removido.
     :return: retorna uma nova lista sem o elemento removido.
     """
     try:
-        dados = read_file("produtos.csv")
+        dados = read_file(path)
         del dados[index_element]
     except:
         print('Erro ao ler o arquivo!')
     else:
-        writer_new_file("produtos.csv", dados)
+        writer_new_file(path, dados)
     return []
 
 
-def buy_produto(index_element, qtd_vendida):
+def tirar_estoque(index_element, qtd_vendida):
     try:
         dados = read_file("produtos.csv")
         for i in range(len(dados)):
@@ -94,7 +77,6 @@ def buy_produto(index_element, qtd_vendida):
                     print('[ERRO] a quantidade não pode ser vendida')
                 else:
                     dados[i][2] = int(dados[i][2]) - qtd_vendida
-                    dados[i][3] = int(dados[i][3]) + qtd_vendida
     except:
         print('Erro ao ler o arquivo!')
     else:
@@ -111,3 +93,10 @@ def jaTemNoEstoque(item=[]):
     except:
         print('Erro ao ler o arquivo!')
     return False
+
+
+def addVenda(dados=[]):
+    try:
+        writer_file("venda.csv", dados)
+    except:
+        print('[ERRO] Não foi possível ler o arquivo')

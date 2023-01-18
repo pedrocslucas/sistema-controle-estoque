@@ -2,7 +2,7 @@ import PySimpleGUI as sg
 import controle_estoque as ce
 import util
 from janelaProdutos import janelaProdutos
-from janelaVenda import janelaVenda
+from janelaCarrinho import janelaCarrinho
 
 def janelaVerTotal():
     font = ("Halvetica", 10)
@@ -11,18 +11,18 @@ def janelaVerTotal():
 
     soma = 0
     qtd_pecas = 0
-    view = ce.read_file("produtos.csv")
+    view = ce.read_file("venda.csv")
     if len(view) > 0:
         for item in view:
-            qtd_pecas += int(item[3])
-            soma += float(item[1]) * int(item[3])
+            qtd_pecas += int(item[2])
+            soma += float(item[1]) * int(item[2])
         for i in range(len(view)):
             view[i][1] = util.coin_format(str(view[i][1]))
 
     layout = [
         [sg.Text('Produtos Vendidos', font=("Arial", 24), pad=((320, 0), (50, 10)))],
         [sg.Table(values=view,
-        headings=['Produto','Preco Unitario', 'Qtd Estoque','Qtd Vendida', 'Data Registro'],
+        headings=['Produto','Preco Vendido', 'Qtd Vendida','Modalidade', 'Data Registro'],
         pad=((80, 0), (20, 30)),
         max_col_width=50,
         auto_size_columns=True,
@@ -47,28 +47,15 @@ def janelaVerTotal():
 
         if event == "Adicionar Produto":
             janelaProdutos()
-            view = ce.read_file("produtos.csv")
-            soma = 0
-            qtd_pecas = 0
-            if len(view) > 0:
-                for item in view:
-                    qtd_pecas += int(item[3])
-                    soma += float(item[1]) * int(item[3])
-                for i in range(len(view)):
-                    view[i][1] = util.coin_format(str(view[i][1]))
-
-            janela['-TABLE_PRODUCTS-'].update(view)
-            janela.Element('soma').update(util.coin_format(str(soma)))
-            janela.Element('qtd_pecas').update(qtd_pecas)
         if event == "Nova Venda":
-            janelaVenda()
-            view = ce.read_file("produtos.csv")
+            janelaCarrinho()
+            view = ce.read_file("venda.csv")
             soma = 0
             qtd_pecas = 0
             if len(view) > 0:
                 for item in view:
-                    qtd_pecas += int(item[3])
-                    soma += float(item[1]) * int(item[3])
+                    qtd_pecas += int(item[2])
+                    soma += float(item[1]) * int(item[2])
                 for i in range(len(view)):
                     view[i][1] = util.coin_format(str(view[i][1]))
 
@@ -81,15 +68,15 @@ def janelaVerTotal():
                 product_name = str(view[row_selected][0])
                 pop_message = f"Tem certeza que deseja excluir o registro de {product_name} da posicao {row_selected}?"
                 if sg.popup_yes_no(pop_message) == 'Yes':
-                    view = ce.remove_registro(int(row_selected))
+                    view = ce.remove_registro("venda.csv", int(row_selected))
 
-                    view = ce.read_file("produtos.csv")
+                    view = ce.read_file("venda.csv")
                     soma = 0
                     qtd_pecas = 0
                     if len(view) > 0:
                         for item in view:
-                            qtd_pecas += int(item[3])
-                            soma += float(item[1]) * int(item[3])
+                            qtd_pecas += int(item[2])
+                            soma += float(item[1]) * int(item[2])
                         for i in range(len(view)):
                             view[i][1] = util.coin_format(str(view[i][1]))
 
@@ -98,6 +85,9 @@ def janelaVerTotal():
                     janela.Element('qtd_pecas').update(qtd_pecas)
             except:
                 sg.popup_error(f"Erro ao remover item {product_name}")
+            janela['-TABLE_PRODUCTS-'].set_focus()
+
+
         if event == sg.WIN_CLOSED or event == "Voltar":
             break
 

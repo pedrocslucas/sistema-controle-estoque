@@ -9,7 +9,13 @@ def coin_format(num):
 
 
 def convert_float(num):
-    return num.replace(',', '.')
+    try:
+        valor = float(num.replace(',', '.'))
+    except:
+        print('[ERRO] Não é um número válido!')
+        return -1
+    else:
+        return valor
 
 
 def get_date_now():

@@ -21,6 +21,9 @@ while True:
         password = values['password']
         if str(login) == str(access_system[0]) and str(password) == str(access_system[1]):
             sg.popup_ok("Login feito com SUCESSO!")
+            janela['login'].update('')
+            janela['password'].update('')
+            janela['login'].set_focus()
             janelaPrincipal()
         else:
             sg.popup_error("Usuario ou senha incorretos!")
