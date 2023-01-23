@@ -6,7 +6,7 @@ sg.set_options(font=font)
 
 layout = [
     [sg.Text("Login: ", pad=((150, 16), (80, 10))), sg.Input(size=(15, 1), key='login', pad=(0, (80, 10)))],
-    [sg.Text("Senha: ", pad=((150, 10), 10)), sg.Input(size=(15, 1), key='password', pad=(0, 10))],
+    [sg.Text("Senha: ", pad=((150, 10), 10)), sg.Input(size=(15, 1), key='password', password_char='*', pad=(0, 10))],
     [sg.Button("Entrar", button_color="Green", size=(10, 1), pad=((190, 0), 10))]
 ]
 

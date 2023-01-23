@@ -25,13 +25,12 @@ def janelaProdutos():
                 dados.append(values['nome'])    #Nome Produto
                 dados.append(util.convert_float(values['preco']))   #Preço Unitário
                 dados.append(int(values['qtd_estoque']))    #Quantidade em Estoque
-                dados.append(0)     #Quantidade Vendida
                 dados.append(util.get_date_now())   #Data do dia atual
                 if ce.jaTemNoEstoque(dados):
-                    sg.popup_non_blocking("Produto ja cadastrado!")
+                    sg.popup_error("Produto ja foi registrado antes!")
                 else:
                     ce.writer_file("produtos.csv", dados)
-                    sg.popup_ok("Registro de item adicionado com Sucesso!")
+                    sg.popup_ok("Novo produto registrado com SUCESSO!")
             except:
                 sg.popup_error("Error ao adicionar um registro de item!")
             #Limpando os dados do input

@@ -76,28 +76,29 @@ def janelaVenda(carrinho=[]):
 
             print(f'values[preco_vendido] = {preco_vendido}')
 
-            if len(str(preco_vendido)) > 0:
+            if preco_vendido != -1:
                 preco_vendido = util.convert_float(preco_vendido)
             else:
                 preco_vendido = util.convert_float(preco_total)
 
             #Modalidade
-            if janela['credit'] == True:
+            if values['credit'] == True:
                 modalidade = 'Crédito'
-            elif janela['pix'] == True:
+            elif values['pix'] == True:
                 modalidade = 'Pix'
-            elif janela['debit'] == True:
+            elif values['debit'] == True:
                 modalidade = 'Débito'
             else:
                 modalidade = 'Dinheiro'
 
             #Registrando Venda
-
             diferenca = preco_total - preco_vendido
+
             print(f'Diferenca: {diferenca}')
             print(f'preco_total: {preco_total}')
             print(f'preco_vendido: {preco_vendido}')
-            desconto_aplicado = False
+
+            desconto_aplicado = False       #Verificar se o desconto já foi aplicado
 
             if len(carrinho) > 0:
                 for i in range(len(carrinho)):
@@ -112,7 +113,7 @@ def janelaVenda(carrinho=[]):
                     print(f'Preco: {carrinho[i][1]}')
 
                     if util.convert_float(carrinho[i][1]) > diferenca and not desconto_aplicado:
-                        dados.append(util.convert_float(carrinho[i][1])-diferenca)  #Adicionando Preco do Produto
+                        dados.append(util.convert_float(carrinho[i][1])-diferenca/carrinho[i][2])  #Adicionando Preco do Produto
                         desconto_aplicado = True
                     else:
                         dados.append(util.convert_float(carrinho[i][1]))   #Adicionando Preco do Produto
@@ -135,6 +136,9 @@ def janelaVenda(carrinho=[]):
             view = list()
             janela['-TABLE_PRODUCTS-'].update(view)
             janela['preco_total'].update(0)
+
+            break
+
 
         if event == sg.WIN_CLOSED or event == "Cancelar":
             break
