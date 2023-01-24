@@ -84,11 +84,11 @@ def tirar_estoque(index_element, qtd_vendida):
     return []
 
 
-def jaTemNoEstoque(item=[]):
+def jaTemNoEstoque(item=[], except_item=""):
     try:
         dados = read_file("produtos.csv")
         for produto in dados:
-            if produto[0] == item[0]:
+            if produto[0] == item[0] and produto[0] != except_item:
                 return True
     except:
         print('Erro ao ler o arquivo!')

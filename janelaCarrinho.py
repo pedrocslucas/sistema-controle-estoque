@@ -8,12 +8,14 @@ def janelaCarrinho():
     sg.theme("default")
     sg.set_options(font=font)
 
-    view = sorted(ce.read_file())
+    view = ce.read_file()
     name_list = list()
 
     if len(view) > 0:
         for item in view:
             name_list.append(item[0])
+    else:
+        name_list.append('')
 
 
     layout = [
@@ -41,11 +43,14 @@ def janelaCarrinho():
     while True:
         event, values = janela.read()
         if event == "Selecionar":
-            if values['-COMBO-'] in name_list:
-                index = int(name_list.index(values['-COMBO-']))
-                preco = view[index][1]
-                janela['preco'].update(util.coin_format(str(preco)))
-                janela['qtd_estoque'].update(f'{view[index][2]} pecas')
+            try:
+                if values['-COMBO-'] in name_list:
+                    index = int(name_list.index(values['-COMBO-']))
+                    preco = view[index][1]
+                    janela['preco'].update(util.coin_format(str(preco)))
+                    janela['qtd_estoque'].update(f'{view[index][2]} pecas')
+            except:
+                sg.popup_error("O Produto Selecionado não corresponde na lista!")
 
 
         if event == "Adicionar":
@@ -78,14 +83,18 @@ def janelaCarrinho():
 
 
         if event == "Vender":
-            if(len(carrinho) > 0):
-                carrinho = janelaVenda(carrinho)
+            try:
+                if(len(carrinho) > 0):
+                    carrinho = janelaVenda(carrinho)
 
-                view = sorted(ce.read_file())       #Atualizando o arquivo
+                    view = ce.read_file()      #Atualizando o arquivo
 
-                janela['qtd_carrinho'].update(f'{len(carrinho)} itens')
-            else:
-                sg.popup_ok("Carrinho Vazio!", "Por favor, adicione ao menos um produto para concluir uma venda!")
+                    janela['qtd_carrinho'].update(f'{len(carrinho)} itens')
+                else:
+                    sg.popup_ok("Carrinho Vazio!", "Por favor, adicione ao menos um produto para concluir uma venda!")
+            except:
+                sg.popup_error("Erro ao vender o produto!")
+
 
         if event == sg.WIN_CLOSED or event == "Voltar":
             break

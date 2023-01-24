@@ -17,16 +17,21 @@ access_system = ['admin', '12345']
 while True:
     event, values = janela.read()
     if event == 'Entrar':
-        login = values['login']
-        password = values['password']
-        if str(login) == str(access_system[0]) and str(password) == str(access_system[1]):
-            sg.popup_ok("Login feito com SUCESSO!")
-            janela['login'].update('')
-            janela['password'].update('')
-            janela['login'].set_focus()
-            janelaPrincipal()
-        else:
-            sg.popup_error("Usuario ou senha incorretos!")
+        try:
+            login = values['login']
+            password = values['password']
+            if str(login) == str(access_system[0]) and str(password) == str(access_system[1]):
+                sg.popup_ok("Login feito com SUCESSO!")
+                janela['login'].update('')
+                janela['password'].update('')
+                janela['login'].set_focus()
+                janelaPrincipal()
+            else:
+                sg.popup_error("Usuario ou senha incorretos!")
+        except:
+            sg.popup_error("ERRO ao efetuar o login!")
+
+
     if event == sg.WIN_CLOSED:
         break
 
