@@ -15,7 +15,7 @@ def janelaListaProduto():
         [sg.Table(values=view,
         headings=['Produto','Preco Real', 'Qtd Estoque', 'Data Registro'],
         pad=((190, 0), (20, 30)),
-        max_col_width=50,
+        max_col_width=60,
         auto_size_columns=True,
         justification='center',
         display_row_numbers=True,
