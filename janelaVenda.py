@@ -75,8 +75,6 @@ def janelaVenda(carrinho=[]):
             try:
                 preco_vendido = values["preco_vendido"]
 
-                print(f'values[preco_vendido] = {preco_vendido}')
-
                 if preco_vendido != -1:
                     preco_vendido = util.convert_float(preco_vendido)
                 else:
@@ -95,10 +93,6 @@ def janelaVenda(carrinho=[]):
                 #Registrando Venda
                 diferenca = preco_total - preco_vendido
 
-                print(f'Diferenca: {diferenca}')
-                print(f'preco_total: {preco_total}')
-                print(f'preco_vendido: {preco_vendido}')
-
                 desconto_aplicado = False       #Verificar se o desconto já foi aplicado
 
                 if len(carrinho) > 0:
@@ -110,8 +104,6 @@ def janelaVenda(carrinho=[]):
                         dados = []
 
                         dados.append(carrinho[i][0])              #Adicionando Nome do Produto
-
-                        print(f'Preco: {carrinho[i][1]}')
 
                         if util.convert_float(carrinho[i][1]) > diferenca and not desconto_aplicado:
                             dados.append(util.convert_float(carrinho[i][1])-diferenca/carrinho[i][2])  #Adicionando Preco do Produto

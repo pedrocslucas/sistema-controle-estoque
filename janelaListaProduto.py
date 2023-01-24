@@ -2,6 +2,7 @@ import PySimpleGUI as sg
 import controle_estoque as ce
 from janelaProdutos import janelaProdutos
 from janelaEditarProduto import janelaEditarProduto
+from util import format_date
 
 def janelaListaProduto():
     font = ("Halvetica", 10)
@@ -9,6 +10,8 @@ def janelaListaProduto():
     sg.set_options(font=font)
 
     view = ce.read_file("produtos.csv")
+    for item in view:
+        item[3] = format_date(item[3])
 
     layout = [
         [sg.Text('Produtos Cadastrados', font=("Arial", 24), pad=((320, 0), (50, 10)))],

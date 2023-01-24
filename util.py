@@ -21,6 +21,17 @@ def convert_float(num):
 def get_date_now():
     from datetime import date
     data_default = date.today()
+    return data_default
+
+
+def format_date(date_now=''):
+    from datetime import datetime
+    data_default = datetime.strptime(date_now, '%Y-%m-%d').date()
     data = f'{data_default.day}/{data_default.month}/{data_default.year}'
     return data
 
+
+def convert_to_date(str_date='01/01/2000'):
+    from datetime import datetime
+    data_default = datetime.strptime(str_date, '%d/%m/%Y').date()
+    return data_default
