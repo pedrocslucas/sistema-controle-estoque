@@ -115,17 +115,22 @@ while True:
 
     if event == "Aplicar":
         selected_modo = values['-COMBO-MODO-']
-        selected_date = util.convert_to_date(values['-COMBO-DATE-INITIAL-'])
-        selected_date_final = util.convert_to_date(values['-COMBO-DATE-FINISH-'])
-        search_list = []    #Lista de busca
+        selected_date = values['-COMBO-DATE-INITIAL-']
+        selected_date_final = values['-COMBO-DATE-FINISH-']
+        search_list = []                                    #Lista de busca
         view = ce.read_file("venda.csv")
         soma = 0
         qtd_pecas = 0
-        for item in view:
-            if len(selected_modo) == 0:
+
+        if len(selected_date) == 0 and len(selected_modo) == 0:
+            sg.popup_error("Selecione uma data de início ou modalidade!")
+        elif len(selected_date) != 0 and len(selected_modo) == 0:   #Data selecionada e modalidade não
+            for item in view:
+                item[4] = util.format_date(item[4])
                 if len(selected_date_final) != 0:
                     # Comparando a data
-                    if util.convert_to_date(item[4]) >= util.convert_to_date(selected_date) and util.convert_to_date(item[4]) <= util.convert_to_date(selected_date_final):
+                    if util.convert_to_date(item[4]) >= util.convert_to_date(selected_date) and util.convert_to_date(
+                            item[4]) <= util.convert_to_date(selected_date_final):
                         qtd_pecas += int(item[2])
                         soma += float(item[1]) * int(item[2])
                         item[1] = util.coin_format(str(item[1]))
@@ -136,26 +141,32 @@ while True:
                         soma += float(item[1]) * int(item[2])
                         item[1] = util.coin_format(str(item[1]))
                         search_list.append(item)
-            elif len(selected_date) == 0:
+        elif len(selected_date) == 0 and len(selected_modo) != 0:   #Modalidade selecionada e data não
+            for item in view:
+                item[4] = util.format_date(item[4])
                 if selected_modo == item[3]:  # Comparando modalidade
                     qtd_pecas += int(item[2])
                     soma += float(item[1]) * int(item[2])
                     item[1] = util.coin_format(str(item[1]))
                     search_list.append(item)
-            else:
+        else:                                                       #Data e modalidade selecionados
+            for item in view:
+                item[4] = util.format_date(item[4])
                 if len(selected_date_final) != 0:
                     # Comparando modalidade e data
-                    if util.convert_to_date(item[4]) >= util.convert_to_date(selected_date) and util.convert_to_date(item[4]) <= util.convert_to_date(selected_date_final):
+                    if util.convert_to_date(item[4]) >= util.convert_to_date(selected_date) and util.convert_to_date(
+                            item[4]) <= util.convert_to_date(selected_date_final) and selected_modo == item[3]:
                         qtd_pecas += int(item[2])
                         soma += float(item[1]) * int(item[2])
                         item[1] = util.coin_format(str(item[1]))
                         search_list.append(item)
                 else:
-                    if selected_modo == item[3] and item[4] == selected_date:#Comparando modalidade e data
+                    if selected_modo == item[3] and item[4] == selected_date:  # Comparando modalidade e data
                         qtd_pecas += int(item[2])
                         soma += float(item[1]) * int(item[2])
                         item[1] = util.coin_format(str(item[1]))
                         search_list.append(item)
+
         #Atualizando os dados da tabela
         janela['-TABLE_PRODUCTS-'].update(search_list)
         janela.Element('soma').update(util.coin_format(str(soma)))
