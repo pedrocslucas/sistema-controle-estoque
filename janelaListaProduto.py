@@ -18,7 +18,7 @@ def janelaListaProduto():
         [sg.Table(values=view,
         headings=['Produto','Preco Real', 'Qtd Estoque', 'Data Registro'],
         pad=((190, 0), (20, 30)),
-        max_col_width=60,
+        max_col_width=80,
         auto_size_columns=True,
         justification='center',
         display_row_numbers=True,
@@ -26,7 +26,7 @@ def janelaListaProduto():
         num_rows=10,
         key='-TABLE_PRODUCTS-',
         enable_events=True,
-        tooltip='This is a table')],
+        tooltip='Tabela de Produtos Cadastrados')],
         [sg.Button('Voltar', button_color="Red", size=(15, 1), pad=((320, 0), 20)),
          sg.Button('Adicionar Produto', button_color="Green", size=(15, 1), pad=((50, 0), 20))]
     ]
@@ -43,6 +43,8 @@ def janelaListaProduto():
 
                 #ATUALIZANDO OS DADOS
                 view = ce.read_file("produtos.csv")
+                for item in view:
+                    item[3] = format_date(item[3])
                 janela['-TABLE_PRODUCTS-'].update(view)
             except:
                 sg.popup_error("ERRO ao Adicionar um produto novo!")
@@ -62,6 +64,8 @@ def janelaListaProduto():
 
                 # ATUALIZANDO OS DADOS
                 view = ce.read_file("produtos.csv")
+                for item in view:
+                    item[3] = format_date(item[3])
                 janela['-TABLE_PRODUCTS-'].update(view)
             except:
                 sg.popup_error(f"Produto {product_name} foi editado!")
