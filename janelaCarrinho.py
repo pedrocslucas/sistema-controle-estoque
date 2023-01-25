@@ -16,6 +16,7 @@ def janelaCarrinho():
             name_list.append(item[0])
     else:
         name_list.append('')
+    name_list = sorted(name_list)
 
 
     layout = [
@@ -35,20 +36,53 @@ def janelaCarrinho():
          sg.Button('Vender', button_color="Green", size=(15, 1), pad=(40, 20))]
     ]
 
-    janela = sg.Window("Janela Produtos", layout, size=(920, 600))
+    janela = sg.Window("Janela Produtos", layout, size=(920, 600), finalize=True)
 
-    index = -1
     carrinho = list()
+
+    index = -1      #Indice do Produto
+    cb_name_clothes = janela['-COMBO-']     #Objeto combobox
+    cb_name_clothes.bind('<Key>', ' Key')    #Qualquer tecla
+    cb_name_clothes.bind('<Enter>', ' Enter')   #Tecla Enter
+
+    user_event = False          #Quando o usuário teclar no ComboBox
 
     while True:
         event, values = janela.read()
+
+        if event == '-COMBO- Enter':      #Quando o usuario apertar a tecla ENTER
+            cb_name_clothes.Widget.select_range(0, 'end')
+
+
+        if event == '-COMBO- Key':        #Quando o usuario apertar qualquer tecla
+            entry = values['-COMBO-'].lower()
+            if user_event:
+                user_event = False
+            else:
+                if entry:
+                    index = None
+                    for i, item in enumerate(name_list):
+                        if item.lower().startswith(entry):
+                            index = i
+                            break
+                    if index is not None:
+                        user_event = True
+                        cb_name_clothes.Widget.set(name_list[index])
+                        cb_name_clothes.Widget.event_generate('<Key-Down>')
+                        cb_name_clothes.Widget.current(index)
+
+
         if event == "Selecionar":
             try:
                 if values['-COMBO-'] in name_list:
                     index = int(name_list.index(values['-COMBO-']))
-                    preco = view[index][1]
-                    janela['preco'].update(util.coin_format(str(preco)))
-                    janela['qtd_estoque'].update(f'{view[index][2]} pecas')
+                    name_product = values['-COMBO-']
+                    for i, item in enumerate(view):
+                        if item[0] == name_product:
+                            index = i
+                            preco = view[index][1]
+                            janela['preco'].update(util.coin_format(str(preco)))
+                            janela['qtd_estoque'].update(f'{view[index][2]} pecas')
             except:
                 sg.popup_error("O Produto Selecionado não corresponde na lista!")
 
@@ -56,8 +90,11 @@ def janelaCarrinho():
         if event == "Adicionar":
             try:
                 #Tratamento de erro
+                name_product = values['-COMBO-']
                 qtd_vendida = int(values['qtd_vendida'])
                 if index == -1:
+                    sg.popup_ok("Selecione um produto para vender!")
+                if name_product == '':
                     sg.popup_ok("Selecione um produto para vender!")
                 elif not int(qtd_vendida) > 0:
                     sg.popup_ok("Selecione a quantidade a ser vendida!")
@@ -67,7 +104,7 @@ def janelaCarrinho():
                     dados = []
 
                     dados.append(index)                 #Index da Compra
-                    dados.append(values['-COMBO-'])     #Nome do Produto
+                    dados.append(name_product)     #Nome do Produto
                     dados.append(preco)                 #Preço Vendido
                     dados.append(qtd_vendida)           #Quantidade Vendida
 
@@ -77,7 +114,12 @@ def janelaCarrinho():
                     sg.popup_ok("Adicionado ao carrinho!")
 
                     # Limpando os dados
+                    index = -1
+                    janela['-COMBO-'].update('')
+                    janela['preco'].update(util.coin_format('0'))
+                    janela['qtd_estoque'].update('0 pecas')
                     janela['qtd_vendida'].update('')
+                    janela['-COMBO-'].set_focus()
             except:
                 sg.popup_error("Erro ao adicionar o produto verifique os campos!")
 

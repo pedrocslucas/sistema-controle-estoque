@@ -22,7 +22,7 @@ def janelaProdutos():
         event, values = janela.read()
         if event == "Salvar":
             try:
-                dados.append(values['nome'])    #Nome Produto
+                dados.append(values['nome'].lower())    #Nome Produto
                 dados.append(util.convert_float(values['preco']))   #Preço Unitário
                 dados.append(int(values['qtd_estoque']))    #Quantidade em Estoque
                 dados.append(util.get_date_now())   #Data do dia atual

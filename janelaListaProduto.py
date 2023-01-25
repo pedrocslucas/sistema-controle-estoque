@@ -68,7 +68,7 @@ def janelaListaProduto():
                     item[3] = format_date(item[3])
                 janela['-TABLE_PRODUCTS-'].update(view)
             except:
-                sg.popup_error(f"Produto {product_name} foi editado!")
+                sg.popup_ok(f"Produto {product_name} foi editado!")
             janela['-TABLE_PRODUCTS-'].set_focus()
 
 
