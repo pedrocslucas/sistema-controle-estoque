@@ -100,3 +100,34 @@ def addVenda(dados=[]):
         writer_file("venda.csv", dados)
     except:
         print('[ERRO] Não foi possível ler o arquivo')
+
+
+def remove_item(path="produtos.csv", item=[]):
+    """
+    Função para remover um elemento na lista com base no indice dele.
+    :param path: caminho do arquivo
+    :param item: referente ao item ao qual será removido.
+    :return: retorna uma nova lista sem o elemento removido.
+    """
+    from util import coin_format, format_date
+    try:
+        index = -1
+        dados = read_file(path)
+        for i, dado in enumerate(dados):
+            valor = dado[1]
+            data = dado[4]
+            dado[1] = coin_format(dado[1])
+            dado[4] = format_date(dado[4])
+            print(f'Dado: {dado}')
+            if dado == item:
+                index = i
+                break
+            dado[1] = valor
+            dado[4] = data
+        if index != -1:
+            del dados[index]
+    except:
+        print('Erro ao ler o arquivo!')
+    else:
+        writer_new_file(path, dados)
+    return []

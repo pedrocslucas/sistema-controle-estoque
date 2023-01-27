@@ -39,7 +39,7 @@ def janelaEditarProduto(product_selected):
                     ce.remove_registro("produtos.csv",
                                        int(product_selected[0]))  # Excluindo o produto antes de editar novo
                     ce.writer_file("produtos.csv", dados)
-                    sg.popup_ok("Novo produto registrado com SUCESSO!")
+                    sg.popup_ok("Novo produto registrado com SUCESSO!", auto_close=True, auto_close_duration=1)
             except:
                 sg.popup_error("Error ao adicionar um registro de item!")
             #Limpando os dados do input

@@ -39,7 +39,7 @@ def janelaVenda(carrinho=[]):
         [sg.Text('Aplicar Desconto: ', size=(20, 0), pad=((240, 0), 10)),
          sg.Input(size=(5, 0), pad=((20, 0), 10), key="preco_vendido")],
         [sg.Button('Cancelar', button_color="Red", size=(15, 1), pad=((300, 40), 20)),
-         sg.Button('Finalizar', button_color="Green", size=(15, 1), pad=(40, 20))]
+         sg.Button('Finalizar', button_color="Green", size=(15, 1), pad=(40, 20), bind_return_key=True)]
     ]
 
     janela = sg.Window("Janela Produtos", layout, size=(920, 600))
@@ -120,7 +120,7 @@ def janelaVenda(carrinho=[]):
                     for peca in lista_de_compra:
                        ce.addVenda(peca)       #Adicionando Nova Venda ao Arquivo
 
-                sg.popup_ok("Registro de venda adicionado com sucesso!")
+                sg.popup_ok("Registro de venda adicionado com sucesso!", auto_close=True, auto_close_duration=1)
             except:
                 sg.popup_error("ERRO ao finalizar uma nova venda!")
             #Limpando os dados

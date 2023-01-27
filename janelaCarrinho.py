@@ -111,7 +111,7 @@ def janelaCarrinho():
                     carrinho.append(dados)              #Adicionando ao carrinho
 
                     janela['qtd_carrinho'].update(f'{len(carrinho)} itens')
-                    sg.popup("Adicionado ao carrinho!", auto_close=True, auto_close_duration=1.5)
+                    sg.popup("Adicionado ao carrinho!", auto_close=True, auto_close_duration=1)
 
                     # Limpando os dados
                     index = -1

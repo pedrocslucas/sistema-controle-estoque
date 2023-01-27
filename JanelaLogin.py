@@ -22,7 +22,7 @@ while True:
             login = values['login']
             password = values['password']
             if str(login) == str(access_system[0]) and str(password) == str(access_system[1]):
-                sg.popup("Login feito com SUCESSO!", auto_close=True, auto_close_duration=1.5)
+                sg.popup("Login feito com SUCESSO!", auto_close=True, auto_close_duration=1)
                 janela['login'].update('')
                 janela['password'].update('')
                 janela['login'].set_focus()

@@ -31,7 +31,7 @@ def janelaProdutos():
                     sg.popup_error("Produto ja foi registrado antes!")
                 else:
                     ce.writer_file("produtos.csv", dados)
-                    sg.popup("Novo produto registrado com SUCESSO!", auto_close=True, auto_close_duration=1.7)
+                    sg.popup("Novo produto registrado com SUCESSO!", auto_close=True, auto_close_duration=1)
             except:
                 sg.popup_error("Error ao adicionar um registro de item!")
             #Limpando os dados do input
