@@ -336,5 +336,5 @@ janelaListaVenda():
 
         if event == sg.WIN_CLOSED or event == "Voltar":
             break
-    
+
     janela.close()
