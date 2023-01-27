@@ -12,7 +12,8 @@ def janelaProdutos():
         [sg.Text('Nome do Produto: ', size=(20, 0), pad=((200, 0), (30, 10))), sg.Input(size=(20, 0), pad=((20, 0), (30, 10)), key="nome")],
         [sg.Text('Preco: ', size=(20, 0), pad=((200, 0), 10)), sg.Input(size=(10, 0), pad=((20, 0), 10), key="preco")],
         [sg.Text('Quantidade em Estoque: ', size=(20, 0), pad=((200, 0), 10)), sg.Input(size=(5, 0), pad=((20, 0), 10), key="qtd_estoque")],
-        [sg.Button('Voltar', button_color="Red", size=(15, 1), pad=((200, 40), 20)), sg.Button('Salvar', button_color="Blue", size=(15, 1), pad=(40, 20))]
+        [sg.Button('Voltar', button_color="Red", size=(15, 1), pad=((200, 40), 20)),
+         sg.Button('Salvar', button_color="Blue", size=(15, 1), pad=(40, 20), bind_return_key=True)]
     ]
 
     janela = sg.Window("Janela Produtos", layout, size=(720, 480))
@@ -30,7 +31,7 @@ def janelaProdutos():
                     sg.popup_error("Produto ja foi registrado antes!")
                 else:
                     ce.writer_file("produtos.csv", dados)
-                    sg.popup_ok("Novo produto registrado com SUCESSO!")
+                    sg.popup("Novo produto registrado com SUCESSO!", auto_close=True, auto_close_duration=1.7)
             except:
                 sg.popup_error("Error ao adicionar um registro de item!")
             #Limpando os dados do input
