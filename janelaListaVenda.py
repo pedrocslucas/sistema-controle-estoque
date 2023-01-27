@@ -3,8 +3,7 @@ import controle_estoque as ce
 import util
 from janelaCarrinho import janelaCarrinho
 
-
-janelaListaVenda():
+def janelaListaVenda():
     font = ("Halvetica", 10)
     sg.theme("LightBlue")
     sg.set_options(font=font)
